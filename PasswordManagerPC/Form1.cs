@@ -1,47 +1,100 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace PasswordManagerPC
 {
     public partial class MainForm : Form
     {
-        private string hint = "Введите ключевую фразу";
+        public static string Version = "1.0";
+        private const string hint = "Введите ключевую фразу";
         private bool showHint = true;
-        private string keyPhrase = "";
+        private int currentPasswordLength;
 
         public MainForm()
         {
             InitializeComponent();
-            this.tbKeyPhrase.Text = hint;
-            this.tbKeyPhrase.ForeColor = Color.Gray;
-            this.tbKeyPhrase.SelectionStart = 0;
-            this.tbKeyPhrase.TextChanged += new System.EventHandler(this.tbKeyPhrase_TextChanged);
+            tbKeyPhrase.Text = hint;
+            tbKeyPhrase.ForeColor = Color.Gray;
+            tbKeyPhrase.SelectionStart = 0;
+            tbKeyPhrase.TextChanged += new EventHandler(this.tbKeyPhrase_TextChanged);
+            cbPassLength.SelectedIndex = 0;
+            currentPasswordLength = cbPassLength.SelectedIndex+8;
+            cbPassLength.SelectedIndexChanged += new EventHandler(this.cbPassLength_SelectedIndexChanged);
+            notifyIcon.Visible = false;
+            notifyIcon.MouseClick += new MouseEventHandler(notifyIcon_MouseClick);
+            this.Resize += new EventHandler(MainForm_Resize);
+        }
+
+        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            notifyIcon.Visible = false;
+            this.ShowInTaskbar = true;
+            WindowState = FormWindowState.Normal;
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                this.ShowInTaskbar = false;
+                notifyIcon.Visible = true;
+            }
         }
 
         private void tbKeyPhrase_TextChanged(object sender, EventArgs e)
         {
             if (showHint == true)
             {
-                this.tbKeyPhrase.Text = hint;
-                this.tbKeyPhrase.ForeColor = Color.Gray;
+                showHint = false;
+                int indexOfHint = tbKeyPhrase.Text.IndexOf(hint);
+                tbKeyPhrase.Text = tbKeyPhrase.Text.Remove(indexOfHint);
+                tbKeyPhrase.ForeColor = Color.Black;
+                tbKeyPhrase.SelectionStart = tbKeyPhrase.Text.Length;
+                showPassword();
             }
-            else
-            {
-                this.tbKeyPhrase.Text = null;
-                this.tbKeyPhrase.ForeColor = Color.Black;
+            else {
+                if (tbKeyPhrase.Text == "") {
+                    tbKeyPhrase.Text = hint;
+                    tbKeyPhrase.ForeColor = Color.Gray;
+                    tbKeyPhrase.SelectionStart = 0;
+                    showHint = true;
+                }
+                else
+                    showPassword();
             }
         }
 
         private void cbPassLength_SelectedIndexChanged(object sender, EventArgs e)
         {
+            currentPasswordLength = cbPassLength.SelectedIndex + 8;
+            showPassword();
+        }
 
+        private void showPassword() {
+            if (tbKeyPhrase.Text != "")
+            {
+                MD5 md5 = MD5.Create();
+                tbPass.Text = Convert.ToBase64String(md5.ComputeHash(Encoding.ASCII.GetBytes(tbKeyPhrase.Text))).Substring(0, currentPasswordLength);
+            }
+            else
+                tbPass.Text = "";
+        }
+
+        private void bpPassCopy_Click(object sender, EventArgs e)
+        {
+            if (tbKeyPhrase.Text != "")
+            {
+                Clipboard.Clear();
+                Clipboard.SetText(tbPass.Text);
+            }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            this.Text += Version;
         }
     }
 }

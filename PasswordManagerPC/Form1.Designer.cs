@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tbKeyPhrase = new System.Windows.Forms.TextBox();
             this.cbPassLength = new System.Windows.Forms.ComboBox();
             this.lbPassLength = new System.Windows.Forms.Label();
@@ -36,6 +38,7 @@
             this.btPassWrite = new System.Windows.Forms.Button();
             this.cbOnTop = new System.Windows.Forms.CheckBox();
             this.bpPassCopy = new System.Windows.Forms.Button();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.SuspendLayout();
             // 
             // tbKeyPhrase
@@ -63,8 +66,6 @@
             this.cbPassLength.Name = "cbPassLength";
             this.cbPassLength.Size = new System.Drawing.Size(63, 21);
             this.cbPassLength.TabIndex = 1;
-            this.cbPassLength.SelectedIndex = 0;
-            this.cbPassLength.SelectedIndexChanged += new System.EventHandler(this.cbPassLength_SelectedIndexChanged);
             // 
             // lbPassLength
             // 
@@ -77,6 +78,7 @@
             // 
             // tbPass
             // 
+            this.tbPass.Enabled = false;
             this.tbPass.Location = new System.Drawing.Point(66, 80);
             this.tbPass.Name = "tbPass";
             this.tbPass.Size = new System.Drawing.Size(143, 20);
@@ -118,6 +120,13 @@
             this.bpPassCopy.TabIndex = 7;
             this.bpPassCopy.Text = "Копировать";
             this.bpPassCopy.UseVisualStyleBackColor = true;
+            this.bpPassCopy.Click += new System.EventHandler(this.bpPassCopy_Click);
+            // 
+            // notifyIcon
+            // 
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "Менеджер паролей";
+            this.notifyIcon.Visible = true;
             // 
             // MainForm
             // 
@@ -132,8 +141,10 @@
             this.Controls.Add(this.lbPassLength);
             this.Controls.Add(this.cbPassLength);
             this.Controls.Add(this.tbKeyPhrase);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "Менеджер паролей";
+            this.Text = "Менеджер паролей ";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,6 +160,7 @@
         private System.Windows.Forms.Button btPassWrite;
         private System.Windows.Forms.CheckBox cbOnTop;
         private System.Windows.Forms.Button bpPassCopy;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
     }
 }
 
