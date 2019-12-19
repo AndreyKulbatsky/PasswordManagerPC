@@ -95,6 +95,7 @@
             // 
             // btPassWrite
             // 
+            this.btPassWrite.Enabled = false;
             this.btPassWrite.Location = new System.Drawing.Point(19, 109);
             this.btPassWrite.Name = "btPassWrite";
             this.btPassWrite.Size = new System.Drawing.Size(75, 23);
@@ -114,13 +115,14 @@
             // 
             // bpPassCopy
             // 
+            this.bpPassCopy.Enabled = false;
             this.bpPassCopy.Location = new System.Drawing.Point(196, 109);
             this.bpPassCopy.Name = "bpPassCopy";
             this.bpPassCopy.Size = new System.Drawing.Size(75, 23);
             this.bpPassCopy.TabIndex = 7;
             this.bpPassCopy.Text = "Копировать";
             this.bpPassCopy.UseVisualStyleBackColor = true;
-            this.bpPassCopy.Click += new System.EventHandler(this.bpPassCopy_Click);
+            this.bpPassCopy.Click += new System.EventHandler(this.BpPassCopy_Click);
             // 
             // notifyIcon
             // 

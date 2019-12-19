@@ -1,34 +1,57 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace PasswordManagerPC
 {
+    //todo 
+    //добавить hint в tbKeyPhrase
+    //добавить about
+    //реализовать набор по кнопке "набрать"
+
     public partial class MainForm : Form
     {
-        public static string Version = "1.0";
-        private const string hint = "Введите ключевую фразу";
-        private bool showHint = true;
+        public static string Version = "1.2";
         private int currentPasswordLength;
+        IniFile INI = new IniFile("config.ini");
 
         public MainForm()
         {
             InitializeComponent();
-            tbKeyPhrase.Text = hint;
-            tbKeyPhrase.ForeColor = Color.Gray;
-            tbKeyPhrase.SelectionStart = 0;
-            tbKeyPhrase.TextChanged += new EventHandler(this.tbKeyPhrase_TextChanged);
-            cbPassLength.SelectedIndex = 0;
-            currentPasswordLength = cbPassLength.SelectedIndex+8;
-            cbPassLength.SelectedIndexChanged += new EventHandler(this.cbPassLength_SelectedIndexChanged);
             notifyIcon.Visible = false;
-            notifyIcon.MouseClick += new MouseEventHandler(notifyIcon_MouseClick);
+            Settings_read();
+            tbKeyPhrase.TextChanged += new EventHandler(this.TbKeyPhrase_TextChanged);
+            this.cbOnTop.CheckedChanged += new System.EventHandler(this.CbOnTop_CheckedChanged);
+            cbPassLength.SelectedIndexChanged += new EventHandler(this.CbPassLength_SelectedIndexChanged);
+            notifyIcon.MouseClick += new MouseEventHandler(NotifyIcon_MouseClick);
             this.Resize += new EventHandler(MainForm_Resize);
         }
 
-        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+        private void Settings_read()
+        {
+            if (INI.KeyExists("Settings", "Length"))
+            {
+                currentPasswordLength = int.Parse(INI.Read("Settings", "Length"));
+                cbPassLength.SelectedIndex = currentPasswordLength - 8;
+            }
+            else
+            {
+                currentPasswordLength = 8;
+                cbPassLength.SelectedIndex = 0;
+            }
+            if (INI.KeyExists("Settings", "OnTop"))
+            {
+                bool onTop = bool.Parse(INI.Read("Settings", "OnTop"));
+                if (onTop)
+                {
+                    this.TopMost = true;
+                    cbOnTop.CheckState = CheckState.Checked;
+                }
+            }
+        }
+
+        private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
         {
             notifyIcon.Visible = false;
             this.ShowInTaskbar = true;
@@ -44,57 +67,59 @@ namespace PasswordManagerPC
             }
         }
 
-        private void tbKeyPhrase_TextChanged(object sender, EventArgs e)
+        private void TbKeyPhrase_TextChanged(object sender, EventArgs e)
         {
-            if (showHint == true)
-            {
-                showHint = false;
-                int indexOfHint = tbKeyPhrase.Text.IndexOf(hint);
-                tbKeyPhrase.Text = tbKeyPhrase.Text.Remove(indexOfHint);
-                tbKeyPhrase.ForeColor = Color.Black;
-                tbKeyPhrase.SelectionStart = tbKeyPhrase.Text.Length;
-                showPassword();
-            }
-            else {
-                if (tbKeyPhrase.Text == "") {
-                    tbKeyPhrase.Text = hint;
-                    tbKeyPhrase.ForeColor = Color.Gray;
-                    tbKeyPhrase.SelectionStart = 0;
-                    showHint = true;
-                }
-                else
-                    showPassword();
-            }
+            ShowPassword();
         }
 
-        private void cbPassLength_SelectedIndexChanged(object sender, EventArgs e)
+        private void CbPassLength_SelectedIndexChanged(object sender, EventArgs e)
         {
             currentPasswordLength = cbPassLength.SelectedIndex + 8;
-            showPassword();
+            INI.Write("Settings", "Length", currentPasswordLength.ToString());
+            ShowPassword();
+            tbKeyPhrase.Focus();
         }
 
-        private void showPassword() {
+        private void ShowPassword() {
             if (tbKeyPhrase.Text != "")
             {
                 MD5 md5 = MD5.Create();
                 tbPass.Text = Convert.ToBase64String(md5.ComputeHash(Encoding.ASCII.GetBytes(tbKeyPhrase.Text))).Substring(0, currentPasswordLength);
+                bpPassCopy.Enabled = true;
+//                btPassWrite.Enabled = true;
             }
             else
+            {
                 tbPass.Text = "";
+                bpPassCopy.Enabled = false;
+                btPassWrite.Enabled = false;
+            }
         }
 
-        private void bpPassCopy_Click(object sender, EventArgs e)
+        private void BpPassCopy_Click(object sender, EventArgs e)
         {
-            if (tbKeyPhrase.Text != "")
+            if (tbPass.Text != "")
             {
                 Clipboard.Clear();
                 Clipboard.SetText(tbPass.Text);
+                tbKeyPhrase.Focus();
             }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.Text += Version;
+        }
+
+        private void CbOnTop_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbOnTop.Checked)
+                this.TopMost = true;
+            else
+                this.TopMost = false;
+
+            INI.Write("Settings", "OnTop", cbOnTop.Checked.ToString());
+            tbKeyPhrase.Focus();
         }
     }
 }
