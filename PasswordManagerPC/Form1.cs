@@ -6,13 +6,14 @@ using System.Text;
 namespace PasswordManagerPC
 {
     //todo 
+
+    //при старте фокус в tbKeyPhrase
     //добавить hint в tbKeyPhrase
-    //добавить about
     //реализовать набор по кнопке "набрать"
 
     public partial class MainForm : Form
     {
-        public static string Version = "1.2";
+        public static string Version = "1.3";
         private int currentPasswordLength;
         IniFile INI = new IniFile("config.ini");
 
@@ -26,6 +27,7 @@ namespace PasswordManagerPC
             cbPassLength.SelectedIndexChanged += new EventHandler(this.CbPassLength_SelectedIndexChanged);
             notifyIcon.MouseClick += new MouseEventHandler(NotifyIcon_MouseClick);
             this.Resize += new EventHandler(MainForm_Resize);
+            tbKeyPhrase.Focus();
         }
 
         private void Settings_read()
@@ -81,7 +83,7 @@ namespace PasswordManagerPC
         }
 
         private void ShowPassword() {
-            if (tbKeyPhrase.Text != "")
+            if ((tbKeyPhrase.Text != "")&(tbKeyPhrase.Text.Length>currentPasswordLength))
             {
                 MD5 md5 = MD5.Create();
                 tbPass.Text = Convert.ToBase64String(md5.ComputeHash(Encoding.ASCII.GetBytes(tbKeyPhrase.Text))).Substring(0, currentPasswordLength);

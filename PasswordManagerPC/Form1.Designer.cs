@@ -39,13 +39,20 @@
             this.cbOnTop = new System.Windows.Forms.CheckBox();
             this.bpPassCopy = new System.Windows.Forms.Button();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabMain = new System.Windows.Forms.TabPage();
+            this.tabAbout = new System.Windows.Forms.TabPage();
+            this.lbAbout = new System.Windows.Forms.Label();
+            this.tabControl.SuspendLayout();
+            this.tabMain.SuspendLayout();
+            this.tabAbout.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbKeyPhrase
             // 
-            this.tbKeyPhrase.Location = new System.Drawing.Point(18, 12);
+            this.tbKeyPhrase.Location = new System.Drawing.Point(6, 6);
             this.tbKeyPhrase.Name = "tbKeyPhrase";
-            this.tbKeyPhrase.Size = new System.Drawing.Size(253, 20);
+            this.tbKeyPhrase.Size = new System.Drawing.Size(249, 20);
             this.tbKeyPhrase.TabIndex = 0;
             // 
             // cbPassLength
@@ -62,7 +69,7 @@
             "14",
             "15",
             "16"});
-            this.cbPassLength.Location = new System.Drawing.Point(208, 46);
+            this.cbPassLength.Location = new System.Drawing.Point(192, 35);
             this.cbPassLength.Name = "cbPassLength";
             this.cbPassLength.Size = new System.Drawing.Size(63, 21);
             this.cbPassLength.TabIndex = 1;
@@ -70,7 +77,7 @@
             // lbPassLength
             // 
             this.lbPassLength.AutoSize = true;
-            this.lbPassLength.Location = new System.Drawing.Point(12, 49);
+            this.lbPassLength.Location = new System.Drawing.Point(8, 35);
             this.lbPassLength.Name = "lbPassLength";
             this.lbPassLength.Size = new System.Drawing.Size(128, 13);
             this.lbPassLength.TabIndex = 2;
@@ -79,15 +86,15 @@
             // tbPass
             // 
             this.tbPass.Enabled = false;
-            this.tbPass.Location = new System.Drawing.Point(66, 80);
+            this.tbPass.Location = new System.Drawing.Point(62, 58);
             this.tbPass.Name = "tbPass";
-            this.tbPass.Size = new System.Drawing.Size(143, 20);
+            this.tbPass.Size = new System.Drawing.Size(112, 20);
             this.tbPass.TabIndex = 3;
             // 
             // lbPass
             // 
             this.lbPass.AutoSize = true;
-            this.lbPass.Location = new System.Drawing.Point(15, 83);
+            this.lbPass.Location = new System.Drawing.Point(6, 61);
             this.lbPass.Name = "lbPass";
             this.lbPass.Size = new System.Drawing.Size(45, 13);
             this.lbPass.TabIndex = 4;
@@ -96,7 +103,7 @@
             // btPassWrite
             // 
             this.btPassWrite.Enabled = false;
-            this.btPassWrite.Location = new System.Drawing.Point(19, 109);
+            this.btPassWrite.Location = new System.Drawing.Point(3, 90);
             this.btPassWrite.Name = "btPassWrite";
             this.btPassWrite.Size = new System.Drawing.Size(75, 23);
             this.btPassWrite.TabIndex = 5;
@@ -106,7 +113,7 @@
             // cbOnTop
             // 
             this.cbOnTop.AutoSize = true;
-            this.cbOnTop.Location = new System.Drawing.Point(100, 113);
+            this.cbOnTop.Location = new System.Drawing.Point(84, 94);
             this.cbOnTop.Name = "cbOnTop";
             this.cbOnTop.Size = new System.Drawing.Size(90, 17);
             this.cbOnTop.TabIndex = 6;
@@ -116,7 +123,7 @@
             // bpPassCopy
             // 
             this.bpPassCopy.Enabled = false;
-            this.bpPassCopy.Location = new System.Drawing.Point(196, 109);
+            this.bpPassCopy.Location = new System.Drawing.Point(180, 90);
             this.bpPassCopy.Name = "bpPassCopy";
             this.bpPassCopy.Size = new System.Drawing.Size(75, 23);
             this.bpPassCopy.TabIndex = 7;
@@ -130,25 +137,71 @@
             this.notifyIcon.Text = "Менеджер паролей";
             this.notifyIcon.Visible = true;
             // 
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.tabMain);
+            this.tabControl.Controls.Add(this.tabAbout);
+            this.tabControl.Location = new System.Drawing.Point(1, 1);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(267, 147);
+            this.tabControl.TabIndex = 8;
+            // 
+            // tabMain
+            // 
+            this.tabMain.Controls.Add(this.cbPassLength);
+            this.tabMain.Controls.Add(this.lbPassLength);
+            this.tabMain.Controls.Add(this.tbPass);
+            this.tabMain.Controls.Add(this.lbPass);
+            this.tabMain.Controls.Add(this.btPassWrite);
+            this.tabMain.Controls.Add(this.cbOnTop);
+            this.tabMain.Controls.Add(this.bpPassCopy);
+            this.tabMain.Controls.Add(this.tbKeyPhrase);
+            this.tabMain.Location = new System.Drawing.Point(4, 22);
+            this.tabMain.Name = "tabMain";
+            this.tabMain.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMain.Size = new System.Drawing.Size(259, 121);
+            this.tabMain.TabIndex = 0;
+            this.tabMain.Text = "Генератор пароля";
+            this.tabMain.UseVisualStyleBackColor = true;
+            // 
+            // tabAbout
+            // 
+            this.tabAbout.Controls.Add(this.lbAbout);
+            this.tabAbout.Location = new System.Drawing.Point(4, 22);
+            this.tabAbout.Name = "tabAbout";
+            this.tabAbout.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAbout.Size = new System.Drawing.Size(259, 121);
+            this.tabAbout.TabIndex = 1;
+            this.tabAbout.Text = "о программе";
+            this.tabAbout.UseVisualStyleBackColor = true;
+            // 
+            // lbAbout
+            // 
+            this.lbAbout.AutoSize = true;
+            this.lbAbout.Location = new System.Drawing.Point(3, 3);
+            this.lbAbout.Name = "lbAbout";
+            this.lbAbout.Size = new System.Drawing.Size(248, 52);
+            this.lbAbout.TabIndex = 0;
+            this.lbAbout.Text = "Генератор паролей на основе ключевой фразы\n\n\n Copyright © andrey.kulbatsky@gmail." +
+    "com 2019 ";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(283, 147);
-            this.Controls.Add(this.bpPassCopy);
-            this.Controls.Add(this.cbOnTop);
-            this.Controls.Add(this.btPassWrite);
-            this.Controls.Add(this.lbPass);
-            this.Controls.Add(this.tbPass);
-            this.Controls.Add(this.lbPassLength);
-            this.Controls.Add(this.cbPassLength);
-            this.Controls.Add(this.tbKeyPhrase);
+            this.ClientSize = new System.Drawing.Size(267, 150);
+            this.Controls.Add(this.tabControl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Менеджер паролей ";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.tabControl.ResumeLayout(false);
+            this.tabMain.ResumeLayout(false);
+            this.tabMain.PerformLayout();
+            this.tabAbout.ResumeLayout(false);
+            this.tabAbout.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -163,6 +216,10 @@
         private System.Windows.Forms.CheckBox cbOnTop;
         private System.Windows.Forms.Button bpPassCopy;
         private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabMain;
+        private System.Windows.Forms.TabPage tabAbout;
+        private System.Windows.Forms.Label lbAbout;
     }
 }
 
