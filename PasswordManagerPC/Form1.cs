@@ -13,20 +13,26 @@ namespace PasswordManagerPC
 
     public partial class MainForm : Form
     {
-        public static string Version = "1.3";
+        public static string Version = "1.5";
         private int currentPasswordLength;
         IniFile INI = new IniFile("config.ini");
 
         public MainForm()
         {
             InitializeComponent();
+            lbAbout.Text = "\nГенератор паролей на основе ключевой фразы\n\n" + 
+                                "Версия " + Version + "\n\n" +
+                                "Copyright © 2019 andrey.kulbatsky@gmail.com";
+            lbHelp.Text =  "1) Выберите длину пароля от 8 до 16 символов.\n" +
+                                "2) Введите ключевую фразу длиной больше\n    выбранной длины пароля.\n" +
+                                "3) Нажмите кнопку \"Копировать\" для \nкопирования пароля в буфер обмена.";
             notifyIcon.Visible = false;
             Settings_read();
             tbKeyPhrase.TextChanged += new EventHandler(this.TbKeyPhrase_TextChanged);
-            this.cbOnTop.CheckedChanged += new System.EventHandler(this.CbOnTop_CheckedChanged);
+            cbOnTop.CheckedChanged += new EventHandler(this.CbOnTop_CheckedChanged);
             cbPassLength.SelectedIndexChanged += new EventHandler(this.CbPassLength_SelectedIndexChanged);
             notifyIcon.MouseClick += new MouseEventHandler(NotifyIcon_MouseClick);
-            this.Resize += new EventHandler(MainForm_Resize);
+            Resize += new EventHandler(MainForm_Resize);
             tbKeyPhrase.Focus();
         }
 
@@ -86,7 +92,11 @@ namespace PasswordManagerPC
             if ((tbKeyPhrase.Text != "")&(tbKeyPhrase.Text.Length>currentPasswordLength))
             {
                 MD5 md5 = MD5.Create();
-                tbPass.Text = Convert.ToBase64String(md5.ComputeHash(Encoding.ASCII.GetBytes(tbKeyPhrase.Text))).Substring(0, currentPasswordLength);
+                SHA256 sha256 = SHA256.Create();
+                byte[] md5Hash1 = md5.ComputeHash(Encoding.ASCII.GetBytes(tbKeyPhrase.Text));
+                byte[] sha256Hash = sha256.ComputeHash(md5Hash1);
+                byte[] md5Hash2 = md5.ComputeHash(sha256Hash);
+                tbPass.Text = Convert.ToBase64String(md5Hash2).Substring(0, currentPasswordLength);
                 bpPassCopy.Enabled = true;
 //                btPassWrite.Enabled = true;
             }
@@ -110,15 +120,15 @@ namespace PasswordManagerPC
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            this.Text += Version;
+            Text += Version;
         }
 
         private void CbOnTop_CheckedChanged(object sender, EventArgs e)
         {
             if (cbOnTop.Checked)
-                this.TopMost = true;
+                TopMost = true;
             else
-                this.TopMost = false;
+                TopMost = false;
 
             INI.Write("Settings", "OnTop", cbOnTop.Checked.ToString());
             tbKeyPhrase.Focus();

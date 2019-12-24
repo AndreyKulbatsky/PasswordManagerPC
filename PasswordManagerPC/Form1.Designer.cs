@@ -41,10 +41,13 @@
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabMain = new System.Windows.Forms.TabPage();
+            this.tabHelp = new System.Windows.Forms.TabPage();
             this.tabAbout = new System.Windows.Forms.TabPage();
             this.lbAbout = new System.Windows.Forms.Label();
+            this.lbHelp = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabMain.SuspendLayout();
+            this.tabHelp.SuspendLayout();
             this.tabAbout.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,6 +143,7 @@
             // tabControl
             // 
             this.tabControl.Controls.Add(this.tabMain);
+            this.tabControl.Controls.Add(this.tabHelp);
             this.tabControl.Controls.Add(this.tabAbout);
             this.tabControl.Location = new System.Drawing.Point(1, 1);
             this.tabControl.Name = "tabControl";
@@ -165,6 +169,16 @@
             this.tabMain.Text = "Генератор пароля";
             this.tabMain.UseVisualStyleBackColor = true;
             // 
+            // tabHelp
+            // 
+            this.tabHelp.Controls.Add(this.lbHelp);
+            this.tabHelp.Location = new System.Drawing.Point(4, 22);
+            this.tabHelp.Name = "tabHelp";
+            this.tabHelp.Size = new System.Drawing.Size(259, 121);
+            this.tabHelp.TabIndex = 2;
+            this.tabHelp.Text = "Справка";
+            this.tabHelp.UseVisualStyleBackColor = true;
+            // 
             // tabAbout
             // 
             this.tabAbout.Controls.Add(this.lbAbout);
@@ -173,18 +187,29 @@
             this.tabAbout.Padding = new System.Windows.Forms.Padding(3);
             this.tabAbout.Size = new System.Drawing.Size(259, 121);
             this.tabAbout.TabIndex = 1;
-            this.tabAbout.Text = "о программе";
+            this.tabAbout.Text = "О программе";
             this.tabAbout.UseVisualStyleBackColor = true;
             // 
             // lbAbout
             // 
+            this.lbAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbAbout.AutoSize = true;
             this.lbAbout.Location = new System.Drawing.Point(3, 3);
             this.lbAbout.Name = "lbAbout";
-            this.lbAbout.Size = new System.Drawing.Size(248, 52);
+            this.lbAbout.Size = new System.Drawing.Size(0, 13);
             this.lbAbout.TabIndex = 0;
-            this.lbAbout.Text = "Генератор паролей на основе ключевой фразы\n\n\n Copyright © andrey.kulbatsky@gmail." +
-    "com 2019 ";
+            this.lbAbout.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbHelp
+            // 
+            this.lbHelp.AutoSize = true;
+            this.lbHelp.Location = new System.Drawing.Point(4, 4);
+            this.lbHelp.Name = "lbHelp";
+            this.lbHelp.Size = new System.Drawing.Size(35, 13);
+            this.lbHelp.TabIndex = 0;
+            this.lbHelp.Text = "";
             // 
             // MainForm
             // 
@@ -199,6 +224,8 @@
             this.tabControl.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
             this.tabMain.PerformLayout();
+            this.tabHelp.ResumeLayout(false);
+            this.tabHelp.PerformLayout();
             this.tabAbout.ResumeLayout(false);
             this.tabAbout.PerformLayout();
             this.ResumeLayout(false);
@@ -220,6 +247,8 @@
         private System.Windows.Forms.TabPage tabMain;
         private System.Windows.Forms.TabPage tabAbout;
         private System.Windows.Forms.Label lbAbout;
+        private System.Windows.Forms.TabPage tabHelp;
+        private System.Windows.Forms.Label lbHelp;
     }
 }
 
